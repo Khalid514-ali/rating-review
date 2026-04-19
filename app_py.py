@@ -16,8 +16,6 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score
 
-from google.colab import files
-file=files.upload()
 df=pd.read_csv("amazon_reviews.csv")
 df=df.dropna()
 
