@@ -55,7 +55,3 @@ if st.button("analyse") and review!=None:
   vector=vectorizer.transform([cleaned])
   prediction=model.predict(vector)
   st.write("Sentiment:",prediction[0])
-
-!jupyter nbconvert --to script "Copy of Untitled6.ipynb"
-
-!rm -rf /content/*
