@@ -23,9 +23,6 @@ df=df.dropna()
 def convert_sentiment(rating):
   if rating <=3:
     return 'negative'
-  elif:
-      rating == 3
-    return 'neutral'
   else:
     return 'positive'
 df['Sentiment']=df['rating'].apply(convert_sentiment)
