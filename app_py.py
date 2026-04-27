@@ -11,6 +11,7 @@ import pandas as pd
 import numpy as np
 import re
 import nltk
+import matplotlib as pyplot as plt
 from sklearn.model_selection import train_test_split
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.linear_model import LogisticRegression
@@ -22,6 +23,8 @@ df=df.dropna()
 def convert_sentiment(rating):
   if rating <=3:
     return 'negative'
+  elif rating == 3
+    return 'neutral'
   else:
     return 'positive'
 df['Sentiment']=df['rating'].apply(convert_sentiment)
@@ -47,9 +50,15 @@ print('Accuracy:',accuracy_score(y_test,y_pred))
 
 import streamlit as st
 st.title("Product review sentiment analyser")
-review=st.text_area("Enter your review")
+file=st.text_area("Enter your review")
 if st.button("analyse") and review!=None:
   cleaned=cleaning(review)
   vector=vectorizer.transform([cleaned])
   prediction=model.predict(vector)
-  st.write("Sentiment:",prediction[0])
+  st.write(f"**Review{i}:** {sentiment}")
+  st.write(review)
+  st.markdown("_ _ _")
+ st.subheader("Summary")
+ st.write(f"Positive Reviews: {positive}"
+ st.write(f"negaitive Reviews: {negative}"
+ st.write(f"Neutral Reviews: {neutral}"
