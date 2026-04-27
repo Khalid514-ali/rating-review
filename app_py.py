@@ -56,7 +56,6 @@ if st.button("analyse") and review!=None:
   st.write(f"**Review{i}:** {sentiment}")
   st.write(review)
   st.markdown("_ _ _")
- st.subheader("Summary")
- st.write(f"Positive Reviews: {positive}"
- st.write(f"negaitive Reviews: {negative}"
- st.write(f"Neutral Reviews: {neutral}"
+  st.write(f"Positive Reviews: {positive}"
+  st.write(f"negaitive Reviews: {negative}"
+  st.write(f"Neutral Reviews: {neutral}"
