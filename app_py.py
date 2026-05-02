@@ -98,7 +98,7 @@ st.pyplot(plt)
 reviews=st.text_area("Enter multiple reviews)one per line)")
 
 if st.button("Analyse Bulk"):
-for r in reviews.split("\n"):
+ for r in reviews.split("\n"):
   cleaned =clean_text(r)
   vector=vectorizer.transform([cleaned])
   pred=model.predict(vector)
