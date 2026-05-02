@@ -16,7 +16,7 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score
 from wordcloud import WordCloud
 # Load dataset
-df = pd.read_csv("reviews.csv")
+df = pd.read_csv("amazon_reviews.csv")
 df = df.dropna()
 
 # Sentiment conversion
