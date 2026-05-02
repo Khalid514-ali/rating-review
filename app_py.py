@@ -39,7 +39,7 @@ df['review'] = df['review'].apply(clean_text)
 
 # TF-IDF
 vectorizer = TfidfVectorizer(max_features=3000)
-X = vectorizer.fit_transform(df['reviewText'])
+X = vectorizer.fit_transform(df['review'])
 y = df['Sentiment']
 
 # Train
