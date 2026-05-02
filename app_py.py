@@ -35,7 +35,7 @@ def clean_text(text):
     text = re.sub(r'[^a-zA-Z]', ' ', text)
     return text.lower()
 
-df['reviewText'] = df['reviewText'].apply(clean_text)
+df['review'] = df['review'].apply(clean_text)
 
 # TF-IDF
 vectorizer = TfidfVectorizer(max_features=3000)
