@@ -68,6 +68,8 @@ if st.button("Analyze"):
     cleaned = clean_text(review)
     vector = vectorizer.transform([cleaned])
     prediction = model.predict(vector)
+    proba = model.predict_proba(vector)
+    st.write("Confidence:", max(proba[0]))
 
     st.subheader("Prediction:")
     st.success(prediction[0])
@@ -84,8 +86,6 @@ ax.set_title("Sentiment Distribution")
 
 st.pyplot(fig)
 
-proba = model.predict_proba(vector)
-st.write("Confidence:", max(proba[0]))
 
 
 text = " ".join(df['reviewText'])
