@@ -8,54 +8,98 @@ Original file is located at
 """
 
 import pandas as pd
-import numpy as np
 import re
-import nltk
-
+import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score
+from wordcloud import WordCloud
+# Load dataset
+df = pd.read_csv("reviews.csv")
+df = df.dropna()
 
-df=pd.read_csv("amazon_reviews.csv")
-df=df.dropna()
-
+# Sentiment conversion
 def convert_sentiment(rating):
-  if rating <=3:
-    return 'negative'
-  else:
-    return 'positive'
-df['Sentiment']=df['rating'].apply(convert_sentiment)
+    if rating >= 4:
+        return "Positive"
+    elif rating == 3:
+        return "Neutral"
+    else:
+        return "Negative"
 
-print(df.columns)
+df['Sentiment'] = df['rating'].apply(convert_sentiment)
 
-def cleaning(text):
-  text=re.sub(r'[^a-zA-z]',  ' ',text)
-  text=text.lower()
-  return text
-df['review']=df['review'].apply(cleaning)
+# Clean text
+def clean_text(text):
+    text = re.sub(r'[^a-zA-Z]', ' ', text)
+    return text.lower()
 
-vectorizer=TfidfVectorizer(max_features=5000)
-X=vectorizer.fit_transform(df['review'])
-y=df['Sentiment']
+df['reviewText'] = df['reviewText'].apply(clean_text)
 
-X_train,X_test,y_train,y_test=train_test_split(X,y,test_size=0.2)
-model=LogisticRegression()
-model.fit(X_train,y_train)
+# TF-IDF
+vectorizer = TfidfVectorizer(max_features=3000)
+X = vectorizer.fit_transform(df['reviewText'])
+y = df['Sentiment']
 
-y_pred=model.predict(X_test)
-print('Accuracy:',accuracy_score(y_test,y_pred))
+# Train
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
+model = LogisticRegression()
+model.fit(X_train, y_train)
+
+# Accuracy
+y_pred = model.predict(X_test)
+print("Accuracy:", accuracy_score(y_test, y_pred))
+
+# Graph: Sentiment Distribution
+df['Sentiment'].value_counts().plot(kind='bar')
+plt.title("Sentiment Distribution")
+plt.show()
 
 import streamlit as st
-st.title("Product review sentiment analyser")
-file=st.text_area("Enter your review")
-if st.button("analyse") and review!=None:
-  cleaned=cleaning(review)
+import matplotlib.pyplot as plt
+
+st.title("Sentiment Analysis Dashboard")
+
+# Input
+review = st.text_area("Enter your review")
+
+if st.button("Analyze"):
+    cleaned = clean_text(review)
+    vector = vectorizer.transform([cleaned])
+    prediction = model.predict(vector)
+
+    st.subheader("Prediction:")
+    st.success(prediction[0])
+
+# Dataset overview
+st.subheader("Dataset Overview")
+
+sentiment_counts = df['Sentiment'].value_counts()
+
+# Pie Chart
+fig, ax = plt.subplots()
+ax.pie(sentiment_counts, labels=sentiment_counts.index, autopct='%1.1f%%')
+ax.set_title("Sentiment Distribution")
+
+st.pyplot(fig)
+
+proba = model.predict_proba(vector)
+st.write("Confidence:", max(proba[0]))
+
+
+text = " ".join(df['reviewText'])
+wc = WordCloud().generate(text)
+
+plt.imshow(wc)
+plt.axis("off")
+st.pyplot(plt)
+
+reviews=st.text_area("Enter multiple reviews)one per line)")
+
+if st.button("Analyse Bulk"):
+for r in reviews.split("\n"):
+  cleaned =clean_text(r)
   vector=vectorizer.transform([cleaned])
-  prediction=model.predict(vector)
-  st.write(f"**Review{i}:** {sentiment}")
-  st.write(review)
-  st.markdown("_ _ _")
-  st.write(f"Positive Reviews: {positive}"
-  st.write(f"negaitive Reviews: {negative}"
-  st.write(f"Neutral Reviews: {neutral}"
+  pred=model.predict(vector)
+  st.write(r,".",pred[0)
