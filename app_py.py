@@ -102,4 +102,4 @@ for r in reviews.split("\n"):
   cleaned =clean_text(r)
   vector=vectorizer.transform([cleaned])
   pred=model.predict(vector)
-  st.write(r,".",pred[0)
+  st.write(r,".",pred[0])
